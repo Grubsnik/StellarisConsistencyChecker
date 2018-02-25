@@ -68,7 +68,7 @@ namespace StellarisConsistencyChecker
 			switch (this.area)
 			{
 				case "engineering":
-					if (!(category == "materials" || category == "voidcraft" || category == "rocketry" || category == "industry"))
+					if (!(category == "materials" || category == "voidcraft" || category == "propulsion" || category == "industry"))
 					{
 						this.errors.Add(string.Format("\tCategory {0} does not belong in area {1}", this.category, this.area));
 					}
@@ -80,7 +80,7 @@ namespace StellarisConsistencyChecker
 					}
 					break;
 				case "physics":
-					if (!(category == "voidcraft" || category == "particles" || category == "computing" || category == "industry" || category == "field_manipulation" || category == "psionics"))
+					if (!(category == "particles" || category == "computing" || category == "field_manipulation"))
 					{
 						this.errors.Add(string.Format("\tCategory {0} does not belong in area {1}", this.category, this.area));
 					}
@@ -107,9 +107,11 @@ namespace StellarisConsistencyChecker
 
 		private bool FilterIrregularTechs()
 		{
+			int tier = 0;
+			bool parsable = int.TryParse(this.tier, out tier);
 			return !string.IsNullOrEmpty(this.tier)
-							&& this.tier.CompareTo("@repeatableTechTier") != 0
-							&& int.Parse(this.tier) > 0
+							&& parsable
+							&& tier > 0
 							&& !this.raw.Contains("weight = 0");
 		}
 	}
